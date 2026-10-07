@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: ticket-booking-api
+  datasource:
+    # LOCK_TIMEOUT lets a SELECT ... FOR UPDATE wait for the holder instead of
+    # failing immediately, which is what makes concurrent hold requests serialise.
+    url: jdbc:h2:mem:ticketing;DB_CLOSE_DELAY=-1;LOCK_TIMEOUT=10000
+    username: sa
+    password: ""
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jackson:
+    default-property-inclusion: non_null
+
+booking:
+  # How long a seat hold survives before the sweeper releases it.
+  hold-duration: PT10M
+  sweeper-interval: 30000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+logging:
+  level:
+    com.ticketing.booking: INFO
